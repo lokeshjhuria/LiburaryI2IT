@@ -1,0 +1,12 @@
+{
+  "name": "i2it-library",
+  "version": "1.0.0",
+  "description": "I2IT Library Management System",
+  "main": "api/index.js",
+  "scripts": {
+    "start": "node api/index.js"
+  },
+  "engines": {
+    "node": ">=18.x"
+  }
+}
