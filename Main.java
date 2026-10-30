@@ -23,7 +23,7 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
 public class Main {
-    private static final Path DATA_DIR = Path.of("data");
+    private static final Path DATA_DIR = resolveDataDir();
     private static final Path BOOKS_FILE = DATA_DIR.resolve("books.csv");
     private static final Path LOANS_FILE = DATA_DIR.resolve("loans.csv");
     private static final Path ACCOUNTS_FILE = DATA_DIR.resolve("accounts.csv");
@@ -40,10 +40,52 @@ public class Main {
     record Loan(int id, int bookId, String title, String student, String dueDate, boolean returned) {}
     record Account(String name, String email, String salt, String passwordHash) {}
 
+    private static Path resolveDataDir() {
+        String envDir = System.getenv("DATA_DIR");
+        if (envDir != null && !envDir.isBlank()) {
+            return Path.of(envDir);
+        }
+        if (System.getenv("VERCEL") != null || System.getenv("VERCEL_ENV") != null) {
+            return Path.of("/tmp", "data");
+        }
+        Path dir = Path.of("data");
+        try {
+            Files.createDirectories(dir);
+            Path testFile = dir.resolve(".write_test");
+            Files.writeString(testFile, "test");
+            Files.deleteIfExists(testFile);
+            return dir;
+        } catch (Exception e) {
+            return Path.of(System.getProperty("java.io.tmpdir", "/tmp"), "data");
+        }
+    }
+
+    private static void seedIfMissing(Path target, Path... candidates) {
+        if (Files.exists(target)) return;
+        for (Path candidate : candidates) {
+            if (Files.exists(candidate) && !candidate.toAbsolutePath().equals(target.toAbsolutePath())) {
+                try {
+                    Files.copy(candidate, target);
+                    return;
+                } catch (IOException ignored) {}
+            }
+        }
+    }
+
     public static void main(String[] args) throws Exception {
         Files.createDirectories(DATA_DIR);
         loadData();
-        int port = args.length > 0 ? Integer.parseInt(args[0]) : 8080;
+        int port = 8080;
+        String envPort = System.getenv("PORT");
+        if (envPort != null && !envPort.isBlank()) {
+            try {
+                port = Integer.parseInt(envPort.trim());
+            } catch (NumberFormatException ignored) {}
+        } else if (args.length > 0) {
+            try {
+                port = Integer.parseInt(args[0].trim());
+            } catch (NumberFormatException ignored) {}
+        }
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
         server.createContext("/", Main::handle);
         server.setExecutor(Executors.newCachedThreadPool());
@@ -52,6 +94,10 @@ public class Main {
     }
 
     private static synchronized void loadData() throws IOException {
+        Files.createDirectories(DATA_DIR);
+        seedIfMissing(BOOKS_FILE, Path.of("books.csv"), Path.of("data", "books.csv"));
+        seedIfMissing(LOANS_FILE, Path.of("loans.csv"), Path.of("data", "loans.csv"));
+        seedIfMissing(ACCOUNTS_FILE, Path.of("accounts.csv"), Path.of("data", "accounts.csv"));
         if (Files.exists(BOOKS_FILE)) {
             for (String line : Files.readAllLines(BOOKS_FILE, StandardCharsets.UTF_8)) {
                 List<String> row = parseCsv(line);
