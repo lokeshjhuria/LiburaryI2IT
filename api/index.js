@@ -385,10 +385,13 @@ ${field("copies", "Number of copies", "1", "number")}
 
 // Request Handler
 function handler(req, res) {
-  const parsedUrl = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
+  let rawPath = req.headers['x-forwarded-uri'] || req.headers['x-matched-path'] || req.url;
+  const parsedUrl = new URL(rawPath, `http://${req.headers.host || 'localhost'}`);
   let pathname = parsedUrl.pathname;
-  if (pathname.startsWith('/api')) {
-    pathname = pathname.substring(4) || '/';
+  if (pathname === '/api' || pathname === '/api/' || pathname === '/api/index.js') {
+    pathname = '/';
+  } else if (pathname.startsWith('/api/')) {
+    pathname = pathname.substring(4);
   }
 
   const query = {};
