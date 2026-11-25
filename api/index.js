@@ -211,15 +211,8 @@ function renderAuth(createAccount, message) {
 
   let html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${title} · I2IT Library</title>
-<script>try{const t=localStorage.getItem('i2it-theme');document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light')}catch(e){}</script>
 <style>
 :root{--ink:#17201d;--muted:#75817a;--green:#226b50;--green-dark:#174b39;--paper:#f5f7f1;--lime:#d8f07d;--line:#e7ebe3}
-html[data-theme="dark"]{--ink:#edf4ed;--muted:#a4b1a8;--paper:#101915;--line:#2b3a33}
-html[data-theme="dark"] body{background:var(--paper)}
-html[data-theme="dark"] .auth-layout{background:#17231e;border-color:var(--line);box-shadow:0 18px 55px #00000055}
-html[data-theme="dark"] .auth-form input,html[data-theme="dark"] .auth-form-wrap{background:#17231e}
-html[data-theme="dark"] .auth-form input{color:var(--ink)}
-html[data-theme="dark"] .auth-form label{color:#c2cdc6}
 *{box-sizing:border-box}body{margin:0;min-height:100vh;background:var(--paper);color:var(--ink);font:14px/1.5 "Segoe UI",Arial,sans-serif;display:grid;place-items:center;padding:24px}
 .auth-layout{width:min(920px,100%);min-height:540px;display:grid;grid-template-columns:1fr 1fr;background:white;border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 18px 55px #18352712}
 .auth-brand{background:#173d32;color:#eef5ed;padding:42px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
@@ -248,8 +241,6 @@ html[data-theme="dark"] .auth-form label{color:#c2cdc6}
 .primary{transition:background .18s ease,transform .18s ease,box-shadow .18s ease}.primary:hover{transform:translateY(-2px);box-shadow:0 7px 16px #226b5024}.primary:active{transform:translateY(0) scale(.98)}
 @media(max-width:680px){body{padding:12px}.auth-layout{grid-template-columns:1fr;min-height:0}.auth-brand{padding:20px 22px}.brand-copy,.brand-foot{display:none}.auth-form-wrap{padding:35px 25px 30px}.auth-form-wrap h1{font-size:24px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
-.theme-toggle{position:fixed;z-index:50;top:18px;right:18px;width:42px;height:42px;border:1px solid var(--line);border-radius:50%;background:var(--white,#fff);color:var(--ink);display:grid;place-items:center;font-size:16px;box-shadow:0 6px 18px #18352718;transition:transform .18s ease,background .18s ease}
-.theme-toggle:hover{transform:rotate(8deg) scale(1.05)}html[data-theme="dark"] .theme-toggle{background:#26352e}
 </style></head><body><div class="auth-layout"><section class="auth-brand"><div class="brand"><div class="brand-mark">i</div><div><strong>I2IT Library</strong><small>Knowledge, organized.</small></div></div>
 <div class="brand-copy"><div class="eyebrow">Campus library · Hinjawadi, Pune</div><h2>A little curiosity goes a long way.</h2><p>Find your next great read, explore new ideas, and keep the I2IT community learning together.</p></div>
 <div class="brand-foot">International Institute of Information Technology · Est. 2003</div></section><main class="auth-form-wrap">
@@ -265,8 +256,7 @@ html[data-theme="dark"] .auth-form label{color:#c2cdc6}
 <label>Password<input name="password" type="password" autocomplete="${createAccount ? 'new-password' : 'current-password'}" placeholder="${createAccount ? 'At least 8 characters' : 'Enter your password'}" minlength="${createAccount ? '8' : '1'}" maxlength="128" required></label>
 <button class="primary" type="submit">${createAccount ? 'Create account' : 'Sign in'}</button></form>
 <div class="switch">${createAccount ? 'Already have an account? <a href="/login">Sign in</a>' : 'New to the library? <a href="/register">Create an account</a>'}</div>
-</main></div><button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">◐</button>
-<script>const b=document.querySelector('.theme-toggle');const s=()=>b.textContent=document.documentElement.dataset.theme==='dark'?'☀':'☾';s();b.addEventListener('click',()=>{const n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;localStorage.setItem('i2it-theme',n);s()})</script></body></html>`;
+</main></div></body></html>`;
 
   return html;
 }
@@ -296,17 +286,8 @@ function render(query, accountName) {
 
   let html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>I2IT Library · Library management</title>
-<script>try{const t=localStorage.getItem('i2it-theme');document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light')}catch(e){}</script>
 <style>
 :root{--ink:#17201d;--muted:#7a8580;--paper:#f6f7f3;--white:#fff;--green:#226b50;--green-dark:#174b39;--line:#e8ebe5;--lime:#d8f07d;--red:#b95143}
-html[data-theme="dark"]{--ink:#edf4ed;--muted:#a5b1aa;--paper:#101915;--white:#17231e;--green:#63a77f;--green-dark:#9bd2b2;--line:#2b3a33;--lime:#d8f07d;--red:#dd8477}
-html[data-theme="dark"] body,html[data-theme="dark"] input,html[data-theme="dark"] select{background:var(--paper);color:var(--ink)}
-html[data-theme="dark"] .panel,html[data-theme="dark"] .stat,html[data-theme="dark"] input,html[data-theme="dark"] select,html[data-theme="dark"] .borrow-form,html[data-theme="dark"] .modal,html[data-theme="dark"] .action{background:var(--white);color:var(--ink)}
-html[data-theme="dark"] th{background:#1d2a24;color:var(--muted);border-color:var(--line)}
-html[data-theme="dark"] td,html[data-theme="dark"] .loan,html[data-theme="dark"] .count,html[data-theme="dark"] .badge,html[data-theme="dark"] .stat-icon,html[data-theme="dark"] .avatar{border-color:var(--line)}
-html[data-theme="dark"] td{border-color:#26352e}html[data-theme="dark"] tbody tr:hover{background:#1d2a24}
-html[data-theme="dark"] .badge,html[data-theme="dark"] .count,html[data-theme="dark"] .stat-icon,html[data-theme="dark"] .avatar{background:#26352e;color:#b9d7c5}
-html[data-theme="dark"] .modal,html[data-theme="dark"] .borrow-form,html[data-theme="dark"] .flash,html[data-theme="dark"] .overdue-note{border-color:var(--line)}
 *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:14px/1.5 "Segoe UI",Arial,sans-serif}
 button,input,select{font:inherit}button,.button{cursor:pointer}.layout{min-height:100vh;display:grid;grid-template-columns:246px 1fr}
 aside{background:#173d32;color:#edf4ed;padding:27px 19px;display:flex;flex-direction:column;gap:32px}
@@ -367,8 +348,6 @@ details.modal[open] .add-form,details.borrow[open] .borrow-form{animation:popIn 
 @media(max-width:1050px){.layout{grid-template-columns:205px 1fr}.grid{grid-template-columns:1fr}.side-panel{display:grid;grid-template-columns:1fr 1fr}.side-panel .panel-head{grid-column:1/-1}.overdue-note{align-self:start}}
 @media(max-width:760px){.layout{grid-template-columns:1fr}aside{padding:12px 15px;gap:12px;flex-direction:row;align-items:center;position:sticky;top:0;z-index:10}.brand{padding:0}.brand-mark{width:34px;height:34px}.nav-label,.nav-link:not(.active),.side-bottom{display:none}.nav-link.active{margin-left:auto;padding:8px 11px;font-size:11px}.nav-icon{display:none}main{padding:23px 15px 35px}.stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.stat{padding:14px}.stat-number{font-size:23px}.welcome{align-items:flex-start;flex-direction:column;gap:8px}.today{display:none}.topline{margin-bottom:20px}.side-panel{display:block}.toolbar{padding:0 12px 12px;flex-wrap:wrap}.search{min-width:100%}.filter{flex:1}.panel-head{padding-left:14px;padding-right:14px}td{padding:10px}th{padding:9px 10px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
-.theme-toggle{position:fixed;z-index:50;right:18px;bottom:18px;width:42px;height:42px;border:1px solid var(--line);border-radius:50%;background:var(--white);color:var(--ink);display:grid;place-items:center;font-size:16px;box-shadow:0 6px 18px #18352718;transition:transform .18s ease,background .18s ease}
-.theme-toggle:hover{transform:rotate(8deg) scale(1.05)}
 </style></head><body><div class="layout"><aside>
 <div class="brand"><div class="brand-mark">i</div><div><strong>I2IT Library</strong><small>Knowledge, organized.</small></div></div>
 <nav><div class="nav-label">Workspace</div><a class="nav-link active" href="/"><span class="nav-icon">▦</span>Library dashboard</a></nav>
@@ -437,8 +416,7 @@ ${field("copies", "Number of copies", "1", "number")}
     html += `<div class="overdue-note">◷ &nbsp; ${overdue} book${overdue === 1 ? ' is' : 's are'} past the return date.</div>`;
   }
 
-  html += `</div></section><footer>I2IT Library · A better way to keep knowledge moving.</footer></main></div><button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">◐</button>
-<script>const b=document.querySelector('.theme-toggle');const s=()=>b.textContent=document.documentElement.dataset.theme==='dark'?'☀':'☾';s();b.addEventListener('click',()=>{const n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;localStorage.setItem('i2it-theme',n);s()})</script></body></html>`;
+  html += `</div></section><footer>I2IT Library · A better way to keep knowledge moving.</footer></main></div></body></html>`;
   return html;
 }
 
