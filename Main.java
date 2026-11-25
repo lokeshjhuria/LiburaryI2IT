@@ -391,7 +391,18 @@ public class Main {
                 .primary{border:0;background:var(--green);color:white;border-radius:8px;padding:11px 14px;font-size:12px;font-weight:700;cursor:pointer;margin-top:3px}.primary:hover{background:var(--green-dark)}
                 .switch{margin-top:20px;color:var(--muted);font-size:11px;text-align:center}.switch a{color:var(--green);font-weight:700;text-decoration:none}.switch a:hover{text-decoration:underline}
                 .flash{padding:10px 12px;margin:0 0 15px;border-radius:8px;background:#fff1ed;color:#9c4438;font-size:11px}
+                @keyframes authEnter{from{opacity:0;transform:translateY(18px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+                @keyframes authSlide{from{opacity:0;transform:translateX(-24px)}to{opacity:1;transform:translateX(0)}}
+                @keyframes authFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+                .auth-layout{animation:authEnter .55s cubic-bezier(.22,.72,.29,1) both}
+                .auth-brand:after{animation:authFloat 7s ease-in-out infinite}
+                .brand,.brand-copy,.brand-foot{animation:authSlide .6s .12s cubic-bezier(.22,.72,.29,1) both}
+                .auth-form-wrap>*{animation:authEnter .5s cubic-bezier(.22,.72,.29,1) both}
+                .auth-form-wrap>*:nth-child(2){animation-delay:.08s}.auth-form-wrap>*:nth-child(3){animation-delay:.14s}.auth-form-wrap>*:nth-child(4){animation-delay:.2s}.auth-form-wrap>*:nth-child(5){animation-delay:.26s}
+                .auth-form input{transition:border-color .18s ease,box-shadow .18s ease,transform .18s ease}.auth-form input:focus{transform:translateY(-1px)}
+                .primary{transition:background .18s ease,transform .18s ease,box-shadow .18s ease}.primary:hover{transform:translateY(-2px);box-shadow:0 7px 16px #226b5024}.primary:active{transform:translateY(0) scale(.98)}
                 @media(max-width:680px){body{padding:12px}.auth-layout{grid-template-columns:1fr;min-height:0}.auth-brand{padding:20px 22px}.brand-copy,.brand-foot{display:none}.auth-form-wrap{padding:35px 25px 30px}.auth-form-wrap h1{font-size:24px}}
+                @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
                 </style></head><body><div class="auth-layout"><section class="auth-brand"><div class="brand"><div class="brand-mark">i</div><div><strong>I2IT Library</strong><small>Knowledge, organized.</small></div></div>
                 <div class="brand-copy"><div class="eyebrow">Campus library · Hinjawadi, Pune</div><h2>A little curiosity goes a long way.</h2><p>Find your next great read, explore new ideas, and keep the I2IT community learning together.</p></div>
                 <div class="brand-foot">International Institute of Information Technology · Est. 2003</div></section><main class="auth-form-wrap">
@@ -465,8 +476,32 @@ public class Main {
                 .add-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:13px}.add-form input{width:100%}.add-form .primary{grid-column:1/-1}
                 .remove-form{display:inline}.remove-form button{border:0;background:none;color:#a65b4c;font-size:10px;cursor:pointer;padding:4px}
                 footer{font-size:10px;color:#9aa39c;text-align:center;margin-top:23px}
+                @keyframes pageEnter{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+                @keyframes sidebarEnter{from{opacity:0;transform:translateX(-18px)}to{opacity:1;transform:translateX(0)}}
+                @keyframes rowEnter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+                @keyframes popIn{from{opacity:0;transform:translateY(-5px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+                aside{animation:sidebarEnter .45s cubic-bezier(.22,.72,.29,1) both}
+                .topline,.welcome,.flash{animation:pageEnter .45s cubic-bezier(.22,.72,.29,1) both}
+                .welcome{animation-delay:.06s}.flash{animation-delay:.1s}
+                .stat{transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;animation:pageEnter .45s cubic-bezier(.22,.72,.29,1) both}
+                .stat:nth-child(1){animation-delay:.1s}.stat:nth-child(2){animation-delay:.16s}.stat:nth-child(3){animation-delay:.22s}.stat:nth-child(4){animation-delay:.28s}
+                .stat:hover{transform:translateY(-4px);border-color:#dce5d5;box-shadow:0 10px 24px #18352712}
+                .stat-icon{transition:transform .22s ease}.stat:hover .stat-icon{transform:rotate(-5deg) scale(1.08)}
+                .panel{animation:pageEnter .5s .18s cubic-bezier(.22,.72,.29,1) both}
+                tbody tr{animation:rowEnter .38s cubic-bezier(.22,.72,.29,1) both}
+                tbody tr:nth-child(1){animation-delay:.22s}tbody tr:nth-child(2){animation-delay:.26s}tbody tr:nth-child(3){animation-delay:.30s}tbody tr:nth-child(4){animation-delay:.34s}tbody tr:nth-child(5){animation-delay:.38s}tbody tr:nth-child(6){animation-delay:.42s}tbody tr:nth-child(7){animation-delay:.46s}tbody tr:nth-child(8){animation-delay:.50s}tbody tr:nth-child(n+9){animation-delay:.54s}
+                tbody tr{transition:background .16s ease}tbody tr:hover{background:#fbfcf8}
+                .loan{animation:rowEnter .38s cubic-bezier(.22,.72,.29,1) both}.loan:nth-child(1){animation-delay:.28s}.loan:nth-child(2){animation-delay:.34s}.loan:nth-child(3){animation-delay:.40s}.loan:nth-child(n+4){animation-delay:.46s}
+                .loan-art{transition:transform .2s ease}.loan:hover .loan-art{transform:rotate(-4deg) scale(1.06)}
+                .nav-link,.action,.primary,.remove-form button,.return-form button{transition:background .18s ease,color .18s ease,transform .18s ease,box-shadow .18s ease}
+                .nav-link:hover{background:#ffffff12}.nav-link.active:hover{background:#326b56}.nav-link:active,.action:active,.primary:active{transform:scale(.97)}
+                .primary:hover,.action:hover{transform:translateY(-1px);box-shadow:0 6px 14px #226b5018}
+                input,select{transition:border-color .18s ease,box-shadow .18s ease,background .18s ease}
+                details.modal[open] .add-form,details.borrow[open] .borrow-form{animation:popIn .22s ease-out both}
+                .avatar{transition:transform .2s ease}.user:hover .avatar{transform:scale(1.06)}
                 @media(max-width:1050px){.layout{grid-template-columns:205px 1fr}.grid{grid-template-columns:1fr}.side-panel{display:grid;grid-template-columns:1fr 1fr}.side-panel .panel-head{grid-column:1/-1}.overdue-note{align-self:start}}
                 @media(max-width:760px){.layout{grid-template-columns:1fr}aside{padding:12px 15px;gap:12px;flex-direction:row;align-items:center;position:sticky;top:0;z-index:10}.brand{padding:0}.brand-mark{width:34px;height:34px}.nav-label,.nav-link:not(.active),.side-bottom{display:none}.nav-link.active{margin-left:auto;padding:8px 11px;font-size:11px}.nav-icon{display:none}main{padding:23px 15px 35px}.stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.stat{padding:14px}.stat-number{font-size:23px}.welcome{align-items:flex-start;flex-direction:column;gap:8px}.today{display:none}.topline{margin-bottom:20px}.side-panel{display:block}.toolbar{padding:0 12px 12px;flex-wrap:wrap}.search{min-width:100%}.filter{flex:1}.panel-head{padding-left:14px;padding-right:14px}td{padding:10px}th{padding:9px 10px}}
+                @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
                 </style></head><body><div class="layout"><aside>
                 <div class="brand"><div class="brand-mark">i</div><div><strong>I2IT Library</strong><small>Knowledge, organized.</small></div></div>
                 <nav><div class="nav-label">Workspace</div><a class="nav-link active" href="/"><span class="nav-icon">▦</span>Library dashboard</a></nav>
