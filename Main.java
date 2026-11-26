@@ -375,7 +375,7 @@ public class Main {
                 <title>""").append(title).append("""
                 · I2IT Library</title>
                 <style>
-                :root{--ink:#1f3325;--muted:#6f7d72;--green:#4f9667;--green-dark:#356b49;--paper:#f1f8f1;--lime:#cfe9bc;--line:#dde8de}
+                :root{--ink:#1f3325;--muted:#6f7d72;--green:#4f9667;--green-dark:#356b49;--paper:#fff;--lime:#cfe9bc;--line:#dde8de}
                 *{box-sizing:border-box}body{margin:0;min-height:100vh;background:var(--paper);color:var(--ink);font:14px/1.5 "Segoe UI",Arial,sans-serif;display:grid;place-items:center;padding:24px}
                 .auth-layout{width:min(920px,100%);min-height:540px;display:grid;grid-template-columns:1fr 1fr;background:#fbfdfb;border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 18px 55px #356b4912}
                 .auth-brand{background:#365f48;color:#f1f7f2;padding:42px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
@@ -442,7 +442,7 @@ public class Main {
                 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
                 <title>I2IT Library · Library management</title>
                 <style>
-                :root{--ink:#1f3325;--muted:#6f7d72;--paper:#f1f8f1;--white:#fbfdfb;--green:#4f9667;--green-dark:#356b49;--line:#dde8de;--lime:#cfe9bc;--red:#b95143}
+                :root{--ink:#1f3325;--muted:#6f7d72;--paper:#fff;--white:#fbfdfb;--green:#4f9667;--green-dark:#356b49;--line:#dde8de;--lime:#cfe9bc;--red:#b95143}
                 *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:14px/1.5 "Segoe UI",Arial,sans-serif}
                 button,input,select{font:inherit}button,.button{cursor:pointer}.layout{min-height:100vh;display:grid;grid-template-columns:246px 1fr}
                 aside{background:#365f48;color:#eff7f1;padding:27px 19px;display:flex;flex-direction:column;gap:32px}
