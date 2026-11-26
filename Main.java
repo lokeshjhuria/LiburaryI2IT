@@ -375,10 +375,10 @@ public class Main {
                 <title>""").append(title).append("""
                 · I2IT Library</title>
                 <style>
-                :root{--ink:#1f3325;--muted:#6f7d72;--green:#4f9667;--green-dark:#356b49;--paper:#f1f8f1;--lime:#cfe9bc;--line:#dde8de}
+                :root{--ink:#25282b;--muted:#72777c;--green:#697078;--green-dark:#454b50;--paper:#f2f3f4;--lime:#dadddf;--line:#dde0e3}
                 *{box-sizing:border-box}body{margin:0;min-height:100vh;background:var(--paper);color:var(--ink);font:14px/1.5 "Segoe UI",Arial,sans-serif;display:grid;place-items:center;padding:24px}
-                .auth-layout{width:min(920px,100%);min-height:540px;display:grid;grid-template-columns:1fr 1fr;background:#fbfdfb;border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 18px 55px #356b4912}
-                .auth-brand{background:#365f48;color:#f1f7f2;padding:42px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+                .auth-layout{width:min(920px,100%);min-height:540px;display:grid;grid-template-columns:1fr 1fr;background:#fcfcfc;border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 18px 55px #25282b12}
+                .auth-brand{background:#50565a;color:#f4f5f5;padding:42px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
                 .auth-brand:after{content:"";position:absolute;width:330px;height:330px;border:1px solid #ffffff20;border-radius:50%;right:-130px;bottom:-115px;box-shadow:0 0 0 38px #ffffff08,0 0 0 78px #ffffff06}
                 .brand{display:flex;align-items:center;gap:11px;position:relative;z-index:1}.brand-mark{width:39px;height:39px;border-radius:12px;background:var(--lime);color:#163c30;display:grid;place-items:center;font-size:21px;font-weight:800}
                 .brand strong{font-size:15px}.brand small{display:block;color:#a8c2b5;font-size:11px;margin-top:1px}
@@ -442,14 +442,14 @@ public class Main {
                 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
                 <title>I2IT Library · Library management</title>
                 <style>
-                :root{--ink:#1f3325;--muted:#6f7d72;--paper:#f1f8f1;--white:#fbfdfb;--green:#4f9667;--green-dark:#356b49;--line:#dde8de;--lime:#cfe9bc;--red:#b95143}
+                :root{--ink:#25282b;--muted:#72777c;--paper:#f2f3f4;--white:#fcfcfc;--green:#697078;--green-dark:#454b50;--line:#dde0e3;--lime:#dadddf;--red:#b95143}
                 *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:14px/1.5 "Segoe UI",Arial,sans-serif}
                 button,input,select{font:inherit}button,.button{cursor:pointer}.layout{min-height:100vh;display:grid;grid-template-columns:246px 1fr}
-                aside{background:#365f48;color:#eff7f1;padding:27px 19px;display:flex;flex-direction:column;gap:32px}
-                .brand{display:flex;align-items:center;gap:11px;padding:2px 6px}.brand-mark{width:39px;height:39px;border-radius:12px;background:var(--lime);color:#163c30;display:grid;place-items:center;font-size:21px;font-weight:800}
+                aside{background:#50565a;color:#f4f5f5;padding:27px 19px;display:flex;flex-direction:column;gap:32px}
+                .brand{display:flex;align-items:center;gap:11px;padding:2px 6px}.brand-mark{width:39px;height:39px;border-radius:12px;background:var(--lime);color:#34383b;display:grid;place-items:center;font-size:21px;font-weight:800}
                 .brand strong{font-size:15px;letter-spacing:.01em}.brand small{display:block;color:#a8c2b5;font-size:11px;margin-top:1px}
                 .nav-label{font-size:10px;text-transform:uppercase;letter-spacing:.15em;color:#9bb6a9;padding:0 10px 9px}.nav-link{display:flex;align-items:center;gap:12px;color:#d9e7dd;text-decoration:none;padding:11px 12px;border-radius:9px;margin:2px 0;font-size:13px}
-                .nav-link.active{background:#2c5948;color:white}.nav-icon{font-size:17px;width:19px;text-align:center}.side-bottom{margin-top:auto;border-top:1px solid #ffffff24;padding:20px 8px 0;color:#a8c2b5;font-size:11px}.side-bottom strong{display:block;color:#e5eee7;font-size:12px;margin-bottom:4px}
+                .nav-link.active{background:#34383b;color:white}.nav-icon{font-size:17px;width:19px;text-align:center}.side-bottom{margin-top:auto;border-top:1px solid #ffffff24;padding:20px 8px 0;color:#c5c9cb;font-size:11px}.side-bottom strong{display:block;color:#eef0f1;font-size:12px;margin-bottom:4px}
                 main{min-width:0;padding:31px clamp(20px,4vw,55px) 48px;max-width:1600px;width:100%;margin:0 auto}.topline{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:28px}
                 .crumb{color:var(--muted);font-size:12px}.crumb b{color:var(--ink);font-weight:600}.user{display:flex;align-items:center;gap:10px;font-size:12px}.avatar{width:35px;height:35px;border-radius:50%;background:#e8eedb;color:var(--green-dark);display:grid;place-items:center;font-weight:700}
                 .welcome{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:25px}.eyebrow{color:var(--green);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
