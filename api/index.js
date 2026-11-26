@@ -340,7 +340,7 @@ tbody tr{transition:background .16s ease}tbody tr:hover{background:#fbfcf8}
 .loan{animation:rowEnter .38s cubic-bezier(.22,.72,.29,1) both}.loan:nth-child(1){animation-delay:.28s}.loan:nth-child(2){animation-delay:.34s}.loan:nth-child(3){animation-delay:.40s}.loan:nth-child(n+4){animation-delay:.46s}
 .loan-art{transition:transform .2s ease}.loan:hover .loan-art{transform:rotate(-4deg) scale(1.06)}
 .nav-link,.action,.primary,.remove-form button,.return-form button{transition:background .18s ease,color .18s ease,transform .18s ease,box-shadow .18s ease}
-.nav-link:hover{background:#ffffff12}.nav-link.active:hover{background:#326b56}.nav-link:active,.action:active,.primary:active{transform:scale(.97)}
+.nav-link:hover{background:#ffffff12}.nav-link.active:hover{background:#292d30}.nav-link:active,.action:active,.primary:active{transform:scale(.97)}
 .primary:hover,.action:hover{transform:translateY(-1px);box-shadow:0 6px 14px #226b5018}
 input,select{transition:border-color .18s ease,box-shadow .18s ease,background .18s ease}
 details.modal[open] .add-form,details.borrow[open] .borrow-form{animation:popIn .22s ease-out both}
