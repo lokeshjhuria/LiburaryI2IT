@@ -13,6 +13,10 @@ java --add-modules jdk.httpserver Main
 
 Then open [http://localhost:8080](http://localhost:8080). To use another port, set the `PORT` environment variable or pass it after `Main` (e.g. `java --add-modules jdk.httpserver Main 8081`).
 
+## Run the Node API
+
+With Node.js 18 or newer, run `npm start` to start the API at [http://localhost:8080](http://localhost:8080). Successful account, catalog, checkout, and return changes are saved in the CSV files under `data/`.
+
 ## Deploy with Vercel
 
 This repository is configured for **Vercel Container Deployment** using the included `Dockerfile` and `vercel.json`.
