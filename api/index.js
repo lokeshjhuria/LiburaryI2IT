@@ -168,17 +168,38 @@ function persistData() {
     ])).join('\n') + '\n']
   ]);
   const temporaryFiles = [];
+  const previousContents = new Map();
+  const replacedFiles = [];
 
   try {
     fs.mkdirSync(dataDirectory, { recursive: true });
     for (const [name, content] of contents) {
       const filePath = path.join(dataDirectory, name);
       const temporaryPath = `${filePath}.${crypto.randomUUID()}.tmp`;
-      fs.writeFileSync(temporaryPath, content, 'utf8');
+      previousContents.set(filePath, fs.existsSync(filePath) ? fs.readFileSync(filePath) : null);
       temporaryFiles.push({ temporaryPath, filePath });
+      fs.writeFileSync(temporaryPath, content, 'utf8');
     }
-    for (const file of temporaryFiles) {
-      fs.renameSync(file.temporaryPath, file.filePath);
+    try {
+      for (const file of temporaryFiles) {
+        fs.renameSync(file.temporaryPath, file.filePath);
+        replacedFiles.push(file);
+      }
+    } catch (error) {
+      for (const file of replacedFiles.reverse()) {
+        const previous = previousContents.get(file.filePath);
+        try {
+          if (previous === null) {
+            fs.unlinkSync(file.filePath);
+          } else {
+            fs.writeFileSync(file.temporaryPath, previous);
+            fs.renameSync(file.temporaryPath, file.filePath);
+          }
+        } catch (restoreError) {
+          console.error(`Unable to restore ${file.filePath}:`, restoreError);
+        }
+      }
+      throw error;
     }
   } finally {
     for (const file of temporaryFiles) {
