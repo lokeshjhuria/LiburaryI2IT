@@ -28,7 +28,7 @@ This repository is configured for **Vercel Container Deployment** using the incl
 4. Vercel automatically detects the `Dockerfile` and container preset (`framework: "container"`).
 5. Click **Deploy**.
 
-> **Note on Data Storage:** Because serverless container environments (like Vercel) have ephemeral/read-only filesystems outside `/tmp`, runtime changes are kept in `/tmp/data` initialized from your repository CSVs. For permanent production data across re-deploys and multiple instances, consider connecting to an external database or persistent volume.
+> **Note on Data Storage:** The Node API saves local changes to the CSV files in `data/`. On Vercel, it initializes a writable copy in `/tmp/i2it-library-data`; that temporary storage is not shared or durable across deployments and instances. Use an external database or persistent volume for production data.
 
 ## Features
 

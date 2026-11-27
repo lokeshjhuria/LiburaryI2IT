@@ -1,8 +1,26 @@
 const http = require('http');
 const crypto = require('crypto');
 const fs = require('fs');
+const os = require('os');
 const path = require('path');
 const url = require('url');
+
+const projectDataDirectory = path.join(__dirname, '..', 'data');
+const dataDirectory = process.env.VERCEL
+  ? path.join(os.tmpdir(), 'i2it-library-data')
+  : projectDataDirectory;
+const dataFiles = ['books.csv', 'loans.csv', 'accounts.csv'];
+
+if (process.env.VERCEL) {
+  fs.mkdirSync(dataDirectory, { recursive: true });
+  for (const name of dataFiles) {
+    const target = path.join(dataDirectory, name);
+    const seed = path.join(projectDataDirectory, name);
+    if (!fs.existsSync(target) && fs.existsSync(seed)) {
+      fs.copyFileSync(seed, target);
+    }
+  }
+}
 
 // Data structures
 let books = [
@@ -41,16 +59,8 @@ let nextLoanId = 7;
 
 function loadCsvData() {
   const findFile = (name) => {
-    const candidates = [
-      path.join(process.cwd(), 'data', name),
-      path.join(process.cwd(), name),
-      path.join(__dirname, '..', 'data', name),
-      path.join(__dirname, '..', name)
-    ];
-    for (const c of candidates) {
-      if (fs.existsSync(c)) return c;
-    }
-    return null;
+    const candidate = path.join(dataDirectory, name);
+    return fs.existsSync(candidate) ? candidate : null;
   };
 
   const parseCsvLine = (line) => {
@@ -79,73 +89,103 @@ function loadCsvData() {
 
   const bPath = findFile('books.csv');
   if (bPath) {
-    try {
-      const lines = fs.readFileSync(bPath, 'utf8').split(/\r?\n/).filter(l => l.trim().length > 0);
-      const parsed = [];
-      for (const line of lines) {
-        const row = parseCsvLine(line);
-        if (row.length === 7) {
-          const id = parseInt(row[0], 10);
-          parsed.push({
-            id,
-            title: row[1],
-            author: row[2],
-            isbn: row[3],
-            category: row[4],
-            copies: parseInt(row[5], 10),
-            available: parseInt(row[6], 10)
-          });
-          nextBookId = Math.max(nextBookId, id + 1);
-        }
+    const lines = fs.readFileSync(bPath, 'utf8').split(/\r?\n/).filter(l => l.trim().length > 0);
+    const parsed = [];
+    for (const line of lines) {
+      const row = parseCsvLine(line);
+      if (row.length === 7) {
+        const id = parseInt(row[0], 10);
+        parsed.push({
+          id,
+          title: row[1],
+          author: row[2],
+          isbn: row[3],
+          category: row[4],
+          copies: parseInt(row[5], 10),
+          available: parseInt(row[6], 10)
+        });
+        nextBookId = Math.max(nextBookId, id + 1);
       }
-      if (parsed.length > 0) books = parsed;
-    } catch (e) {}
+    }
+    if (parsed.length > 0) books = parsed;
   }
 
   const lPath = findFile('loans.csv');
   if (lPath) {
-    try {
-      const lines = fs.readFileSync(lPath, 'utf8').split(/\r?\n/).filter(l => l.trim().length > 0);
-      const parsed = [];
-      for (const line of lines) {
-        const row = parseCsvLine(line);
-        if (row.length === 6) {
-          const id = parseInt(row[0], 10);
-          parsed.push({
-            id,
-            bookId: parseInt(row[1], 10),
-            title: row[2],
-            student: row[3],
-            dueDate: row[4],
-            returned: row[5].toLowerCase() === 'true'
-          });
-          nextLoanId = Math.max(nextLoanId, id + 1);
-        }
+    const lines = fs.readFileSync(lPath, 'utf8').split(/\r?\n/).filter(l => l.trim().length > 0);
+    const parsed = [];
+    for (const line of lines) {
+      const row = parseCsvLine(line);
+      if (row.length === 6) {
+        const id = parseInt(row[0], 10);
+        parsed.push({
+          id,
+          bookId: parseInt(row[1], 10),
+          title: row[2],
+          student: row[3],
+          dueDate: row[4],
+          returned: row[5].toLowerCase() === 'true'
+        });
+        nextLoanId = Math.max(nextLoanId, id + 1);
       }
-      if (parsed.length > 0) loans = parsed;
-    } catch (e) {}
+    }
+    if (parsed.length > 0) loans = parsed;
   }
 
   const aPath = findFile('accounts.csv');
   if (aPath) {
-    try {
-      const lines = fs.readFileSync(aPath, 'utf8').split(/\r?\n/).filter(l => l.trim().length > 0);
-      for (const line of lines) {
-        const row = parseCsvLine(line);
-        if (row.length === 4) {
-          accounts.set(row[1].toLowerCase(), {
-            name: row[0],
-            email: row[1].toLowerCase(),
-            salt: row[2],
-            passwordHash: row[3]
-          });
-        }
+    const lines = fs.readFileSync(aPath, 'utf8').split(/\r?\n/).filter(l => l.trim().length > 0);
+    for (const line of lines) {
+      const row = parseCsvLine(line);
+      if (row.length === 4) {
+        accounts.set(row[1].toLowerCase(), {
+          name: row[0],
+          email: row[1].toLowerCase(),
+          salt: row[2],
+          passwordHash: row[3]
+        });
       }
-    } catch (e) {}
+    }
   }
 }
 
 loadCsvData();
+
+function csvRow(values) {
+  return values.map(value => `"${String(value).replace(/"/g, '""')}"`).join(',');
+}
+
+function persistData() {
+  const contents = new Map([
+    ['books.csv', books.map(book => csvRow([
+      book.id, book.title, book.author, book.isbn, book.category, book.copies, book.available
+    ])).join('\n') + '\n'],
+    ['loans.csv', loans.map(loan => csvRow([
+      loan.id, loan.bookId, loan.title, loan.student, loan.dueDate, loan.returned
+    ])).join('\n') + '\n'],
+    ['accounts.csv', Array.from(accounts.values(), account => csvRow([
+      account.name, account.email, account.salt, account.passwordHash
+    ])).join('\n') + '\n']
+  ]);
+  const temporaryFiles = [];
+
+  try {
+    fs.mkdirSync(dataDirectory, { recursive: true });
+    for (const [name, content] of contents) {
+      const filePath = path.join(dataDirectory, name);
+      const temporaryPath = `${filePath}.${crypto.randomUUID()}.tmp`;
+      fs.writeFileSync(temporaryPath, content, 'utf8');
+      temporaryFiles.push({ temporaryPath, filePath });
+    }
+    for (const file of temporaryFiles) {
+      fs.renameSync(file.temporaryPath, file.filePath);
+    }
+  } finally {
+    for (const file of temporaryFiles) {
+      if (fs.existsSync(file.temporaryPath)) fs.unlinkSync(file.temporaryPath);
+    }
+  }
+}
 
 function escape(text) {
   if (text == null) return '';
@@ -458,6 +498,13 @@ function handler(req, res) {
         const salt = crypto.randomBytes(16).toString('base64');
         const passwordHash = hashPassword(password, salt);
         accounts.set(userEmail, { name, email: userEmail, salt, passwordHash });
+        try {
+          persistData();
+        } catch (error) {
+          accounts.delete(userEmail);
+          console.error('Unable to save library data:', error);
+          return redirect(res, `/register?message=${encodeURIComponent('Your account could not be saved. Check that the project data folder is writable.')}`);
+        }
 
         const token = crypto.randomUUID();
         sessions.set(token, userEmail);
@@ -490,6 +537,11 @@ function handler(req, res) {
         return redirect(res, `/login?message=${encodeURIComponent('Please sign in to continue.')}`);
       }
 
+      const previousBooks = books.map(book => ({ ...book }));
+      const previousLoans = loans.map(loan => ({ ...loan }));
+      const previousNextBookId = nextBookId;
+      const previousNextLoanId = nextLoanId;
+      let changed = false;
       let message = 'That action could not be found.';
 
       if (pathname === '/books/add') {
@@ -513,6 +565,7 @@ function handler(req, res) {
             copies,
             available: copies
           });
+          changed = true;
           message = `“${title}” was added to the catalog.`;
         }
       } else if (pathname === '/books/borrow') {
@@ -536,6 +589,7 @@ function handler(req, res) {
             dueDate: due.toISOString().split('T')[0],
             returned: false
           });
+          changed = true;
           message = `“${book.title}” checked out to ${student}.`;
         }
       } else if (pathname === '/loans/return') {
@@ -547,6 +601,7 @@ function handler(req, res) {
           if (book) {
             book.available = Math.min(book.copies, book.available + 1);
           }
+          changed = true;
           message = `“${loan.title}” has been returned.`;
         } else {
           message = 'That active loan could not be found.';
@@ -562,8 +617,22 @@ function handler(req, res) {
             message = 'Return all copies before removing this book.';
           } else {
             books.splice(bookIndex, 1);
+            changed = true;
             message = `“${book.title}” was removed from the catalog.`;
           }
+        }
+      }
+
+      if (changed) {
+        try {
+          persistData();
+        } catch (error) {
+          books = previousBooks;
+          loans = previousLoans;
+          nextBookId = previousNextBookId;
+          nextLoanId = previousNextLoanId;
+          console.error('Unable to save library data:', error);
+          message = 'The change could not be saved. Check that the project data folder is writable.';
         }
       }
 
